@@ -41,15 +41,17 @@ type Config struct {
 	NodeAddress           *addressing.NodeAddress // Node IPv6 Address
 	NAT46Prefix           *net.IPNet              // NAT46 IPv6 Prefix
 	Device                string                  // Receive device
-	ConsulConfig          *consulAPI.Config       // Consul configuration
-	EtcdConfig            *etcdAPI.Config         // Etcd Configuration
-	EtcdCfgPath           string                  // Etcd Configuration path
-	DockerEndpoint        string                  // Docker endpoint
+	HostV4Addr            net.IP
+	HostV6Addr            net.IP
+	ConsulConfig          *consulAPI.Config      // Consul configuration
+	EtcdConfig            *etcdAPI.Config        // Etcd Configuration
+	EtcdCfgPath           string                 // Etcd Configuration path
+	DockerEndpoint        string                 // Docker endpoint
 	IPv4Disabled          bool                    // Disable IPv4 allocation
-	K8sEndpoint           string                  // Kubernetes endpoint
-	K8sCfgPath            string                  // Kubeconfig path
-	ValidLabelPrefixes    *labels.LabelPrefixCfg  // Label prefixes used to filter from all labels
-	ValidK8sLabelPrefixes *labels.LabelPrefixCfg  // Label prefixes used to filter from all labels
+	K8sEndpoint           string                 // Kubernetes endpoint
+	K8sCfgPath            string                 // Kubeconfig path
+	ValidLabelPrefixes    *labels.LabelPrefixCfg // Label prefixes used to filter from all labels
+	ValidK8sLabelPrefixes *labels.LabelPrefixCfg // Label prefixes used to filter from all labels
 	ValidLabelPrefixesMU  sync.RWMutex
 	LBMode                bool   // Set to true on load balancer node
 	Tunnel                string // Tunnel mode

@@ -311,6 +311,8 @@ func (d *Daemon) PolicyDelete(path, cover256Sum string) *apierror.ApiError {
 				"Invalid length of hash, must be %d", policy.CoverageSHASize)
 		}
 
+	//TODO: check if node is nil!
+
 		for i, pr := range node.Rules {
 			if prCover256Sum, err := pr.CoverageSHA256Sum(); err == nil &&
 				prCover256Sum == cover256Sum {

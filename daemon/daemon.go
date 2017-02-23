@@ -160,11 +160,35 @@ func (d *Daemon) compileBase() error {
 	}
 
 	if d.conf.Device != "undefined" {
-		if _, err := netlink.LinkByName(d.conf.Device); err != nil {
+		l, err := netlink.LinkByName(d.conf.Device)
+		if err != nil {
 			log.Warningf("Link %s does not exist: %s", d.conf.Device, err)
 			return err
 		}
-
+		addrs, err := netlink.AddrList(l, netlink.FAMILY_V4)
+		if err != nil {
+			log.Warningf("Link %s does not exist: %s", d.conf.Device, err)
+			return err
+		}
+		for _, possibleAddr := range addrs {
+			if netlink.Scope(possibleAddr.Scope) == netlink.SCOPE_UNIVERSE {
+				d.conf.HostV4Addr = possibleAddr.IP
+				log.Infof("Using host address %s", d.conf.HostV4Addr)
+				break
+			}
+		}
+		addrs, err = netlink.AddrList(l, netlink.FAMILY_V6)
+		if err != nil {
+			log.Warningf("Link %s does not exist: %s", d.conf.Device, err)
+			return err
+		}
+		for _, possibleAddr := range addrs {
+			if netlink.Scope(possibleAddr.Scope) == netlink.SCOPE_UNIVERSE {
+				d.conf.HostV6Addr = possibleAddr.IP
+				log.Infof("Using host address %s", d.conf.HostV4Addr)
+				break
+			}
+		}
 		if d.conf.LBMode {
 			mode = "lb"
 		} else {

@@ -163,7 +163,7 @@ func initEnv() {
 	}
 
 	config.Opts.Set(endpoint.OptionDropNotify, true)
-	config.Opts.Set(endpoint.OptionNAT46, true)
+	config.Opts.Set(endpoint.OptionNAT46, false)
 	config.Opts.Set(options.PolicyTracing, enableTracing)
 	config.Opts.Set(endpoint.OptionConntrack, !disableConntrack)
 	config.Opts.Set(endpoint.OptionConntrackAccounting, !disableConntrack)
